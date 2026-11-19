@@ -1,0 +1,40 @@
+version: 2
+
+sources:
+  - name: dkv
+    database: RAW
+    schema: SALES
+    description: CSV uploads from static dkv case study.
+    tables:
+      - name: RAW_CUSTOMERS
+        description: Raw customers data.
+        columns:
+          - name: CUSTOMER_RAW_ROW_ID
+            description: Primary key for customers data.
+            data_tests:
+              - unique
+              - not_null
+      - name: RAW_SALES_ORDERS
+        description: Raw order level data.
+        columns: 
+          - name: ORDER_ID
+            description: Primary key for orders.
+            data_tests:
+              - not_null
+              - unique
+      - name: RAW_PRODUCTS_CONTRACTS
+        description: Raw product lookup data.
+        columns: 
+          - name: PRODUCT_ID
+            description: Product primary key.
+            data_tests:
+              - not_null
+              - unique
+      - name: RAW_SALES_TARGETS
+        description: Raw sales targets data.
+        columns: 
+          - name: TARGET_ROW_ID
+            description: Primary Key for target data.
+            data_tests:
+              - not_null
+              - unique
