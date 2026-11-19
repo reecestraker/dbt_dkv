@@ -1,5 +1,9 @@
 with source as (
-        select * from {{ source('dkv', 'RAW_SALES_ORDERS') }}
+        select 
+          *,
+          row_number() over (partition by {{ adapter.quote("ORDER_ID") }} order by {{ adapter.quote("SYS_INGESTION_TS") }}) as rn
+        from {{ source('dkv', 'RAW_SALES_ORDERS') }}
+
   ),
   renamed as (
       select
@@ -20,6 +24,8 @@ with source as (
         {{ adapter.quote("RAW_KAFKA_OFFSET_ID") }}
 
       from source
+      where
+        rn = 1
   )
   select * from renamed
     
