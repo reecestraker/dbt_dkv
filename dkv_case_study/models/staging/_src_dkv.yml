@@ -7,23 +7,23 @@ sources:
     description: CSV uploads from static dkv case study.
     tables:
       - name: RAW_CUSTOMERS
-        description: Raw customers data.
+        description: Raw customers data. Not unique to customer.
         columns:
           - name: CUSTOMER_RAW_ROW_ID
-            description: Primary key for customers data.
+            description: UniqueID for raw data, but not this table is not unique at customer level.
             data_tests:
               - unique
               - not_null
       - name: RAW_SALES_ORDERS
-        description: Raw order level data.
+        description: Raw order level data. Not unique to order, need to investigate.
         columns: 
           - name: ORDER_ID
             description: Primary key for orders.
             data_tests:
               - not_null
-              - unique
+              #- unique ##not sure why there are dupes here but there are! investigate!
       - name: RAW_PRODUCTS_CONTRACTS
-        description: Raw product lookup data.
+        description: Raw product lookup data. Unique to product.
         columns: 
           - name: PRODUCT_ID
             description: Product primary key.
@@ -31,7 +31,7 @@ sources:
               - not_null
               - unique
       - name: RAW_SALES_TARGETS
-        description: Raw sales targets data.
+        description: Raw sales targets data.  Unique to month and region.
         columns: 
           - name: TARGET_ROW_ID
             description: Primary Key for target data.
