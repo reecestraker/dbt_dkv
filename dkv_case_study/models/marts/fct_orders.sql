@@ -14,6 +14,7 @@ select
     customer_id,
     product_id,
     order_status,
+    case when order_status in ('Completed','Invoiced') then 1 else 0 end as is_revenue,
     order_type,
     --convert amounts to euros here once and not downstream (local regions can convert back in pbi if needed?)
     gross_amount_eur,
