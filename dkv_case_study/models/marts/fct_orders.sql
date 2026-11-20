@@ -26,7 +26,7 @@ select
     case when c.customer_id is not null then 1 else 0 end as is_real_customer --useful flag maybe
 from
     cte_orders o
-    left join dim_customers c
+    left join {{ ref('dim_customers') }} c
         on o.customer_id = c.customer_id   
 where
     o.order_status <> 'Internal_Test'   --remove these
