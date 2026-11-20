@@ -1,0 +1,41 @@
+----calculate targets vs revenue for each country to compare to pbi numbers
+select
+    t.target_month,
+    t.country_code,
+    t.target_net_revenue_eur,
+    sum(o.net_amount_eur) as revenue
+from
+    fct_targets t
+    join fct_orders o
+        on t.target_month = date_trunc(month, o.order_date) --same way done in pbi
+    join dim_customers c
+        on c.customer_id = o.customer_id
+        and t.country_code = c.country_code
+where
+    is_revenue = 1
+
+group by
+    t.target_month,
+    t.country_code,
+    t.target_net_revenue_eur
+order by
+    1,2
+    --9246 as in pbi. good.
+
+
+-- select
+--     t.target_month,
+--     t.country_code,
+--     t.target_net_revenue_eur,
+--     sum(r.net_revenue_eur) as revenue
+-- from
+--     fct_targets t
+--     join report_sales_revenue r
+--         on t.target_month = r.revenue_month --same way done in pbi
+--     join dim_customers c
+--         on c.customer_id = o.customer_id
+--         and t.country_code = c.country_code
+-- group by
+--     t.target_month,
+--     t.country_code,
+--     t.target_net_revenue_eur
