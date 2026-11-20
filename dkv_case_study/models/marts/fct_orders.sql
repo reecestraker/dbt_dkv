@@ -9,20 +9,24 @@ with cte_orders as
         {{ ref('stg_sales_orders') }}
 )
 select
-    order_id,
-    order_date,
-    customer_id,
-    product_id,
-    order_status,
-    case when order_status in ('Completed','Invoiced') then 1 else 0 end as is_revenue,
-    order_type,
+    o.order_id,
+    o.order_date,
+    o.customer_id,
+    o.product_id,
+    o.order_status,
+    case when o.order_status in ('Completed','Invoiced') then 1 else 0 end as is_revenue,
+    o.order_type,
     --convert amounts to euros here once and not downstream (local regions can convert back in pbi if needed?)
-    gross_amount_eur,
-    discount_amount_eur,
-    tax_amount_eur,
-    gross_amount_eur - discount_amount_eur - tax_amount_eur as net_amount_eur,
-    currency as original_currency, --to be clear it's not original anymore
-    sales_channel
-    
+    o.gross_amount_eur,
+    o.discount_amount_eur,
+    o.tax_amount_eur,
+    o.gross_amount_eur - o.discount_amount_eur - o.tax_amount_eur as net_amount_eur,
+    o.currency as original_currency, --to be clear it's not original anymore
+    o.sales_channel,
+    case when c.customer_id is not null then 1 else 0 end as is_real_customer --useful flag maybe
 from
-    cte_orders
+    cte_orders o
+    left join dim_customers c
+        on o.customer_id = c.customer_id   
+where
+    o.order_status <> 'Internal_Test'   --remove these
