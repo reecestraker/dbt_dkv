@@ -36,3 +36,9 @@ models:
       +materialized: view
     marts:
       +materialized: table
+
+seeds:
+  dkv_case_study:
+    dim_countries:
+      +column_types:
+        country_code: varchar(2)
