@@ -3,7 +3,7 @@ with source as (
   ),
   renamed as (
       select
-          {{ adapter.quote("TARGET_ROW_ID") }},
+          {{ adapter.quote("TARGET_ROW_ID") }} as target_id,
         {{ adapter.quote("TARGET_MONTH") }},
         {{ adapter.quote("COUNTRY_CODE") }},
         {{ adapter.quote("TARGET_NET_REVENUE_EUR") }},
