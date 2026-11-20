@@ -9,6 +9,7 @@ select
     target_id,
     target_month,
     country_code,
+    concat(country_code,'|',target_month) as country_month_key, --for joining smoothly in PBI
     target_net_revenue_eur,
     target_new_customers,
     target_version,

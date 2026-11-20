@@ -19,7 +19,7 @@ with cte_orders as
 select
     c.country_code,
     o.revenue_month,
-    concat(c.country_code,'|',o.revenue_month) as country_month_key,
+    concat(c.country_code,'|',o.revenue_month) as country_month_key,--for joining smoothly in PBI
     o.order_status,
     o.order_type,
     o.sales_channel,
