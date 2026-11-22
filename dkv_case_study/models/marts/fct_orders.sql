@@ -21,12 +21,13 @@ select
     o.discount_amount_eur,
     o.tax_amount_eur,
     o.gross_amount_eur - o.discount_amount_eur - o.tax_amount_eur as net_amount_eur,
-    o.currency as original_currency, --to be clear it's not original anymore
+    o.currency as original_currency, --renamed to be clear it's not original anymore, but might be useful for analysis
     o.sales_channel,
-    case when c.customer_id is not null then 1 else 0 end as is_real_customer --useful flag maybe
+    --case when c.customer_id is null then 1 else 0 end as has_valid_customer --useful flag maybe, checking for orphaned orders, none as yet though
 from
     cte_orders o
-    left join {{ ref('dim_customers') }} c
+    left join {{ ref('stg_customers') }} c
         on o.customer_id = c.customer_id   
 where
-    o.order_status <> 'Internal_Test'   --remove these
+    o.order_status <> 'Internal_Test'   --remove test orders.  if ever needed, might need extra marts layer on top, and keep them here
+    and c.is_internal_test_account = 0  --removing orders from test_customers. if ever needed, might need extra marts layer on top, and keep them here
