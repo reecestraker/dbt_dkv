@@ -25,6 +25,7 @@ select
     o.sales_channel,
     o.is_revenue,
     --could add tax/discounts/gross too
+    sum(coalesce(o.gross_amount_eur,0)) as gross_revenue_eur,
     sum(coalesce(o.net_amount_eur,0)) as net_revenue_eur
 from
     cte_orders o
