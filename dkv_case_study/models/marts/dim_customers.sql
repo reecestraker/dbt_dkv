@@ -19,5 +19,4 @@ select
 from
     cte_customers
 where
-    valid_to is null  --just take the latest row per customer to get a unique per customer table --segment history would be elsewhere
-    and IS_INTERNAL_TEST_ACCOUNT = 0    --remove test accounts here. Chosen to do here instead of staging.
+    IS_INTERNAL_TEST_ACCOUNT = 0    --remove test accounts here. Chosen to do here instead of staging.
