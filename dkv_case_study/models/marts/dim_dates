@@ -1,6 +1,0 @@
-with recursive cte_dates(date) as (
-    select cast('2023-01-01'  as date)
-  union all
-    select dateadd(day, 1, date) from cte_dates where date < '2027-12-31'::date
-)
-select * from cte_dates
