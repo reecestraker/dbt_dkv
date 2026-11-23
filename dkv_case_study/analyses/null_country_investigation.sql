@@ -8,3 +8,4 @@ FROM fct_orders o
 WHERE c.customer_id IS NULL
 --CUST-10689
 -- select * from stg_customers where customer_id > 'CUST-10600'
+
